@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>CSE160 – Assignment 2 – Blocky Rat</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1a1a2e;
+      color: #eee;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      gap: 10px;
+    }
+    h1 { font-size: 18px; color: #ccc; }
+    #webgl { display: block; border: 2px solid #444; border-radius: 4px; cursor: grab; }
+    #webgl:active { cursor: grabbing; }
+
+    .controls-area {
+      width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .section-label {
+      font-weight: bold;
+      color: #aaa;
+      margin-top: 6px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 3px;
+    }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .slider-row label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      min-width: 200px;
+    }
+    input[type=range] { width: 140px; vertical-align: middle; }
+    .btn-row { display: flex; gap: 8px; margin-top: 4px; }
+    button {
+      padding: 4px 14px;
+      font-size: 13px;
+      background: #2a2a40;
+      color: #ddd;
+      border: 1px solid #555;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    button:hover { background: #3a3a55; }
+    #fps {
+      font-family: monospace;
+      color: #88ff88;
+      font-size: 13px;
+    }
+    .hint { font-size: 11px; color: #777; margin-top: 4px; }
+  </style>
+</head>
+
+<body onload="main()">
+  <h1>🐀 Blocky Rat – CSE160 Assignment 2</h1>
+
+  <canvas id="webgl" width="560" height="560">
+    Please use a browser that supports canvas.
+  </canvas>
+
+  <div class="controls-area">
+
+    <!-- FPS -->
+    <div id="fps">FPS: --</div>
+
+    <!-- Camera -->
+    <div class="section-label">Camera / Global Rotation</div>
+    <div class="slider-row">
+      <label>Y Rotation (slider)
+        <input type="range" id="camSlider" min="-180" max="180" step="1" value="0">
+      </label>
+    </div>
+    <div class="hint">Tip: drag the canvas with your mouse to rotate freely in all directions. Shift+click for a poke animation!</div>
+
+    <!-- Animation -->
+    <div class="section-label">Animation</div>
+    <div class="btn-row">
+      <button id="animOnBtn">▶ Animation ON</button>
+      <button id="animOffBtn">⏸ Animation OFF</button>
+    </div>
+
+    <!-- Front Left Leg chain (3 levels) -->
+    <div class="section-label">Front Left Leg (3-level chain)</div>
+    <div class="slider-row">
+      <label>Upper Leg
+        <input type="range" id="frontUpperSlider" min="-60" max="60" step="1" value="0">
+      </label>
+      <label>Lower Leg
+        <input type="range" id="frontLowerSlider" min="-60" max="60" step="1" value="0">
+      </label>
+    </div>
+    <div class="slider-row">
+      <label>Foot
+        <input type="range" id="frontFootSlider" min="-45" max="45" step="1" value="0">
+      </label>
+    </div>
+
+    <!-- Back Left Leg chain -->
+    <div class="section-label">Back Left Leg</div>
+    <div class="slider-row">
+      <label>Upper Leg
+        <input type="range" id="backUpperSlider" min="-60" max="60" step="1" value="0">
+      </label>
+      <label>Lower Leg
+        <input type="range" id="backLowerSlider" min="-60" max="60" step="1" value="0">
+      </label>
+    </div>
+    <div class="slider-row">
+      <label>Foot
+        <input type="range" id="backFootSlider" min="-45" max="45" step="1" value="0">
+      </label>
+    </div>
+
+    <!-- Right legs -->
+    <div class="section-label">Right Legs</div>
+    <div class="slider-row">
+      <label>Front Right Upper
+        <input type="range" id="frontRUpperSlider" min="-60" max="60" step="1" value="0">
+      </label>
+      <label>Back Right Upper
+        <input type="range" id="backRUpperSlider" min="-60" max="60" step="1" value="0">
+      </label>
+    </div>
+
+    <!-- Head and Tail -->
+    <div class="section-label">Head &amp; Tail</div>
+    <div class="slider-row">
+      <label>Head Nod
+        <input type="range" id="headSlider" min="-30" max="30" step="1" value="0">
+      </label>
+      <label>Tail Wag
+        <input type="range" id="tailSlider" min="-60" max="60" step="1" value="0">
+      </label>
+    </div>
+
+  </div><!-- /controls-area -->
+
+  <!-- Book lib files -->
+  <script src="lib/webgl-utils.js"></script>
+  <script src="lib/webgl-debug.js"></script>
+  <script src="lib/cuon-utils.js"></script>
+  <!-- cuon-matrix is needed for Matrix4 -->
+  <script src="lib/cuon-matrix.js"></script>
+
+  <!-- Our files -->
+  <script src="Triangle.js"></script>
+  <script src="Cube.js"></script>
+  <script src="Cylinder.js"></script>
+  <script src="BlockyAnimal.js"></script>
+
+</body>
+</html>
